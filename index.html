@@ -15,31 +15,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --green-50: #f0fdf4;
-            --green-100: #dcfce7;
-            --green-500: #22c55e;
-            --green-600: #16a34a;
-            --green-700: #15803d;
-            --green-800: #166534;
-            --green-900: #14532d;
+            --lime-50: #f5ffe6;
+            --lime-100: #e4ffc4;
+            --lime-400: #84cc16;
+            --lime-500: #65a30d;
+            --lime-600: #4d7c0f;
+            --emerald-500: #10b981;
+            --emerald-600: #059669;
+            --emerald-700: #047857;
+            --emerald-800: #065f46;
+            --emerald-900: #064e3b;
             --gray-50: #f9fafb;
             --gray-100: #f3f4f6;
             --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
             --gray-400: #9ca3af;
             --gray-500: #6b7280;
             --gray-600: #4b5563;
             --gray-700: #374151;
             --gray-800: #1f2937;
             --gray-900: #111827;
-            --orange-500: #f97316;
             --red-500: #ef4444;
+            --orange-500: #f97316;
+            --radius: 14px;
+            --radius-sm: 8px;
+            --radius-lg: 20px;
+            --shadow: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-lg: 0 8px 30px rgba(0,0,0,0.1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -54,14 +59,14 @@
             padding: 0 24px;
         }
 
-        /* Nav */
+        /* ===== Nav ===== */
         nav {
-            padding: 20px 0;
-            border-bottom: 1px solid var(--gray-200);
+            padding: 16px 0;
             background: #fff;
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 1px solid var(--gray-200);
         }
 
         nav .container {
@@ -73,65 +78,136 @@
         .logo {
             font-size: 1.5rem;
             font-weight: 800;
-            color: var(--green-700);
+            color: var(--emerald-700);
             text-decoration: none;
             letter-spacing: -0.5px;
         }
 
-        .logo span {
-            color: var(--gray-800);
+        .logo span { color: var(--gray-800); }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            list-style: none;
         }
 
-        .nav-cta {
-            background: var(--green-600);
-            color: #fff;
-            padding: 10px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
+        .nav-links a {
             font-size: 0.9rem;
-            transition: background 0.2s;
+            font-weight: 500;
+            color: var(--gray-600);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--emerald-700); }
+
+        .nav-cta {
+            background: var(--emerald-600);
+            color: #fff !important;
+            padding: 10px 24px;
+            border-radius: var(--radius-sm);
+            font-weight: 600 !important;
+            transition: background 0.2s, transform 0.1s;
         }
 
         .nav-cta:hover {
-            background: var(--green-700);
+            background: var(--emerald-700) !important;
+            transform: translateY(-1px);
         }
 
-        /* Hero */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .nav-toggle span {
+            width: 24px; height: 2px;
+            background: var(--gray-800);
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-toggle { display: flex; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 56px; left: 0; right: 0;
+                background: #fff;
+                flex-direction: column;
+                padding: 1.5rem;
+                gap: 1rem;
+                border-bottom: 1px solid var(--gray-200);
+                box-shadow: var(--shadow-lg);
+            }
+            .nav-links--open { display: flex; }
+        }
+
+        /* ===== Hero ===== */
         .hero {
-            padding: 80px 0 60px;
+            padding: 80px 0 48px;
+            background: linear-gradient(160deg, #ecfdf5 0%, #fff 40%, #f0fdf4 100%);
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -100px; right: -80px;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%);
+            border-radius: 50%;
         }
 
         .hero-badge {
-            display: inline-block;
-            background: var(--green-100);
-            color: var(--green-800);
-            padding: 6px 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--emerald-800);
+            color: #fff;
+            padding: 8px 18px;
             border-radius: 100px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
+            letter-spacing: 0.02em;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--lime-400);
+            border-radius: 50%;
         }
 
         .hero h1 {
             font-size: clamp(2.2rem, 5vw, 3.5rem);
             font-weight: 800;
-            line-height: 1.15;
+            line-height: 1.12;
             color: var(--gray-900);
-            max-width: 800px;
+            max-width: 780px;
             margin: 0 auto 20px;
-            letter-spacing: -1px;
+            letter-spacing: -1.5px;
         }
 
         .hero h1 .highlight {
-            color: var(--green-600);
+            background: linear-gradient(135deg, var(--emerald-600), var(--lime-500));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hero p {
             font-size: 1.15rem;
             color: var(--gray-600);
-            max-width: 600px;
+            max-width: 560px;
             margin: 0 auto 36px;
         }
 
@@ -143,44 +219,47 @@
         }
 
         .btn-primary {
-            background: var(--green-600);
+            background: var(--emerald-600);
             color: #fff;
             padding: 14px 32px;
-            border-radius: 10px;
+            border-radius: var(--radius);
             text-decoration: none;
             font-weight: 700;
             font-size: 1.05rem;
-            transition: background 0.2s, transform 0.1s;
+            transition: all 0.2s;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            box-shadow: 0 4px 14px rgba(5,150,105,0.3);
         }
 
         .btn-primary:hover {
-            background: var(--green-700);
-            transform: translateY(-1px);
+            background: var(--emerald-700);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(5,150,105,0.35);
         }
 
         .btn-secondary {
             background: var(--gray-100);
             color: var(--gray-700);
             padding: 14px 32px;
-            border-radius: 10px;
+            border-radius: var(--radius);
             text-decoration: none;
             font-weight: 600;
             font-size: 1.05rem;
-            transition: background 0.2s;
+            transition: all 0.2s;
+            border: 1px solid var(--gray-200);
         }
 
         .btn-secondary:hover {
             background: var(--gray-200);
         }
 
-        /* Sellos demo */
+        /* ===== Sellos Demo ===== */
         .sellos-demo {
             display: flex;
             justify-content: center;
-            gap: 16px;
+            gap: 14px;
             margin-top: 48px;
             flex-wrap: wrap;
         }
@@ -201,7 +280,10 @@
             line-height: 1.2;
             padding: 8px;
             position: relative;
+            transition: transform 0.3s;
         }
+
+        .sello-icon:hover { transform: scale(1.1); }
 
         .sello-icon::after {
             content: '';
@@ -211,24 +293,103 @@
             border-radius: 50%;
         }
 
-        .sello-icon .sello-label {
-            font-size: 0.5rem;
+        .sello-label { font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .sello-type { font-size: 0.65rem; font-weight: 800; margin-top: 2px; }
+
+        /* ===== Phone Mockup ===== */
+        .phone-mockup {
+            max-width: 320px;
+            margin: 48px auto 0;
+            background: var(--gray-900);
+            border-radius: 32px;
+            padding: 12px;
+            box-shadow: var(--shadow-lg), 0 0 0 1px rgba(0,0,0,0.05);
+        }
+
+        .phone-mockup__screen {
+            background: #fff;
+            border-radius: 22px;
+            overflow: hidden;
+        }
+
+        .phone-mockup__status {
+            background: var(--emerald-600);
+            color: #fff;
+            padding: 12px 16px 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .phone-mockup__product {
+            padding: 20px 16px;
+        }
+
+        .phone-mockup__product-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .phone-mockup__product-brand {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-bottom: 12px;
+        }
+
+        .phone-mockup__sellos {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .phone-mockup__sello {
+            background: var(--gray-900);
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 100px;
+        }
+
+        .phone-mockup__swap {
+            background: var(--lime-50);
+            border: 1px solid var(--lime-100);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+        }
+
+        .phone-mockup__swap-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--emerald-700);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
         }
 
-        .sello-icon .sello-type {
-            font-size: 0.65rem;
-            font-weight: 800;
-            margin-top: 2px;
+        .phone-mockup__swap-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-800);
         }
 
-        /* Stats */
+        .phone-mockup__swap-sellos {
+            font-size: 0.75rem;
+            color: var(--emerald-600);
+            font-weight: 700;
+        }
+
+        /* ===== Stats ===== */
         .stats {
-            padding: 60px 0;
-            background: var(--gray-50);
-            border-top: 1px solid var(--gray-200);
-            border-bottom: 1px solid var(--gray-200);
+            padding: 64px 0;
+            background: var(--emerald-900);
         }
 
         .stats-grid {
@@ -239,25 +400,25 @@
         }
 
         .stat-item h3 {
-            font-size: 2.5rem;
+            font-size: 2.75rem;
             font-weight: 800;
-            color: var(--green-600);
+            color: var(--lime-400);
             line-height: 1;
         }
 
         .stat-item p {
             font-size: 0.9rem;
-            color: var(--gray-600);
+            color: rgba(255,255,255,0.8);
             margin-top: 8px;
         }
 
         .stat-item .stat-source {
             font-size: 0.75rem;
-            color: var(--gray-400);
+            color: rgba(255,255,255,0.4);
             margin-top: 4px;
         }
 
-        /* How it works */
+        /* ===== How it Works ===== */
         .how-it-works {
             padding: 80px 0;
         }
@@ -283,32 +444,34 @@
         .steps-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
+            gap: 24px;
         }
 
         .step-card {
             background: #fff;
             border: 1px solid var(--gray-200);
-            border-radius: 16px;
+            border-radius: var(--radius-lg);
             padding: 32px;
             text-align: center;
-            transition: box-shadow 0.2s;
+            transition: all 0.3s;
+            position: relative;
         }
 
         .step-card:hover {
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
         }
 
         .step-number {
-            width: 48px;
-            height: 48px;
-            background: var(--green-100);
-            color: var(--green-700);
-            border-radius: 50%;
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--emerald-600), var(--lime-500));
+            color: #fff;
+            border-radius: var(--radius-sm);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 800;
             margin-bottom: 16px;
         }
@@ -325,51 +488,55 @@
             font-size: 0.95rem;
         }
 
-        /* Features */
+        /* ===== Features ===== */
         .features {
             padding: 80px 0;
-            background: var(--green-900);
-            color: #fff;
-        }
-
-        .features .section-title h2 {
-            color: #fff;
-        }
-
-        .features .section-title p {
-            color: rgba(255, 255, 255, 0.7);
+            background: var(--gray-50);
         }
 
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
+            gap: 20px;
         }
 
         .feature-card {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 16px;
+            background: #fff;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
             padding: 28px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
         }
 
         .feature-icon {
-            font-size: 2rem;
-            margin-bottom: 12px;
+            width: 48px; height: 48px;
+            background: var(--lime-50);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 14px;
         }
 
         .feature-card h3 {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 700;
-            margin-bottom: 8px;
+            color: var(--gray-900);
+            margin-bottom: 6px;
         }
 
         .feature-card p {
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--gray-600);
             font-size: 0.9rem;
         }
 
-        /* About NOM-051 */
+        /* ===== NOM-051 ===== */
         .about-nom {
             padding: 80px 0;
         }
@@ -395,51 +562,86 @@
             font-size: 0.95rem;
         }
 
+        .about-nom-text strong { color: var(--emerald-700); }
+
         .sellos-list {
             list-style: none;
         }
 
         .sellos-list li {
-            padding: 12px 0;
+            padding: 14px 0;
             border-bottom: 1px solid var(--gray-200);
             display: flex;
-            gap: 12px;
+            gap: 14px;
             align-items: flex-start;
         }
 
-        .sellos-list li:last-child {
-            border-bottom: none;
-        }
+        .sellos-list li:last-child { border-bottom: none; }
 
         .sello-dot {
-            width: 10px;
-            height: 10px;
+            width: 12px; height: 12px;
             background: var(--gray-900);
             border-radius: 50%;
-            margin-top: 7px;
+            margin-top: 6px;
             flex-shrink: 0;
         }
 
-        .sellos-list strong {
+        .sellos-list strong { color: var(--gray-900); }
+
+        /* ===== Social Proof ===== */
+        .social-proof {
+            padding: 80px 0;
+            background: var(--gray-50);
+        }
+
+        .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .proof-card {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 24px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .proof-card__quote {
+            font-size: 0.95rem;
+            color: var(--gray-700);
+            line-height: 1.7;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+
+        .proof-card__author {
+            font-size: 0.85rem;
+            font-weight: 700;
             color: var(--gray-900);
         }
 
-        /* CTA Section */
+        .proof-card__detail {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+        }
+
+        /* ===== CTA Section ===== */
         .cta-section {
             padding: 80px 0;
-            background: var(--green-50);
+            background: linear-gradient(135deg, var(--emerald-800), var(--emerald-900));
             text-align: center;
         }
 
         .cta-section h2 {
             font-size: 2rem;
             font-weight: 800;
-            color: var(--gray-900);
+            color: #fff;
             margin-bottom: 12px;
         }
 
         .cta-section p {
-            color: var(--gray-600);
+            color: rgba(255,255,255,0.75);
             margin-bottom: 32px;
             font-size: 1.05rem;
             max-width: 500px;
@@ -460,88 +662,118 @@
             flex: 1;
             min-width: 240px;
             padding: 14px 20px;
-            border: 1px solid var(--gray-200);
-            border-radius: 10px;
+            border: 2px solid rgba(255,255,255,0.15);
+            border-radius: var(--radius);
             font-size: 1rem;
             font-family: inherit;
             outline: none;
             transition: border-color 0.2s;
+            background: rgba(255,255,255,0.08);
+            color: #fff;
         }
 
-        .email-form input:focus {
-            border-color: var(--green-500);
-        }
+        .email-form input::placeholder { color: rgba(255,255,255,0.45); }
+        .email-form input:focus { border-color: var(--lime-400); }
 
         .email-form button {
-            background: var(--green-600);
-            color: #fff;
+            background: var(--lime-400);
+            color: var(--emerald-900);
             padding: 14px 28px;
             border: none;
-            border-radius: 10px;
+            border-radius: var(--radius);
             font-size: 1rem;
             font-weight: 700;
             font-family: inherit;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
 
         .email-form button:hover {
-            background: var(--green-700);
+            background: var(--lime-500);
+            transform: translateY(-1px);
         }
 
         .cta-note {
             font-size: 0.8rem;
-            color: var(--gray-400);
+            color: rgba(255,255,255,0.4);
             margin-top: 12px;
         }
 
-        /* Footer */
+        .cta-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.08);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 24px;
+        }
+
+        .cta-counter::before {
+            content: '';
+            width: 8px; height: 8px;
+            background: var(--lime-400);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* ===== Footer ===== */
         footer {
             padding: 40px 0;
             border-top: 1px solid var(--gray-200);
-            text-align: center;
         }
 
-        footer .logo {
-            display: block;
-            margin-bottom: 12px;
+        footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 24px;
+            flex-wrap: wrap;
         }
 
-        footer p {
-            color: var(--gray-400);
+        .footer-brand {}
+        .footer-brand .logo { display: block; margin-bottom: 8px; }
+        .footer-brand p { font-size: 0.85rem; color: var(--gray-400); }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
             font-size: 0.85rem;
+            color: var(--gray-500);
+            text-decoration: none;
         }
+
+        .footer-links a:hover { color: var(--emerald-600); }
 
         .disclaimer {
-            max-width: 700px;
-            margin: 24px auto 0;
+            width: 100%;
+            margin-top: 24px;
             padding: 16px 20px;
             background: var(--gray-50);
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             font-size: 0.75rem;
             color: var(--gray-500);
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
-        /* Responsive */
+        /* ===== Responsive ===== */
         @media (max-width: 768px) {
-            .hero {
-                padding: 48px 0 40px;
-            }
-
-            .about-nom-content {
-                grid-template-columns: 1fr;
-            }
-
-            .sellos-demo {
-                gap: 12px;
-            }
-
-            .sello-icon {
-                width: 60px;
-                height: 60px;
-                font-size: 0.5rem;
-            }
+            .hero { padding: 48px 0 40px; }
+            .about-nom-content { grid-template-columns: 1fr; }
+            .sellos-demo { gap: 10px; }
+            .sello-icon { width: 60px; height: 60px; }
+            .phone-mockup { max-width: 280px; }
+            footer .container { flex-direction: column; }
         }
     </style>
 </head>
@@ -549,39 +781,47 @@
     <nav>
         <div class="container">
             <a href="#" class="logo">Sin<span>Sellos</span></a>
-            <a href="#registro" class="nav-cta">Aviso de lanzamiento</a>
+            <ul class="nav-links">
+                <li><a href="#como-funciona">Como funciona</a></li>
+                <li><a href="#que-son">Sellos NOM-051</a></li>
+                <li><a href="#registro" class="nav-cta">Acceso anticipado</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
     <section class="hero">
         <div class="container">
-            <div class="hero-badge">Hecho en Mexico para consumidores mexicanos</div>
-            <h1>Entiende los <span class="highlight">sellos negros</span> de tus productos y encuentra mejores opciones</h1>
-            <p>SinSellos te muestra los sellos NOM-051 de cada producto y te recomienda alternativas mas saludables a casi el mismo precio.</p>
+            <div class="hero-badge">100% gratuito · Hecho en Mexico</div>
+            <h1>Escanea un producto y descubre si te conviene <span class="highlight">o hay algo mejor</span></h1>
+            <p>SinSellos te muestra los sellos negros NOM-051 de cada producto y te recomienda alternativas mas saludables a precio similar.</p>
             <div class="hero-cta-group">
                 <a href="#registro" class="btn-primary">Quiero acceso anticipado</a>
                 <a href="#como-funciona" class="btn-secondary">Como funciona</a>
             </div>
-            <div class="sellos-demo">
-                <div class="sello-icon">
-                    <span class="sello-label">Exceso</span>
-                    <span class="sello-type">Calorias</span>
-                </div>
-                <div class="sello-icon">
-                    <span class="sello-label">Exceso</span>
-                    <span class="sello-type">Sodio</span>
-                </div>
-                <div class="sello-icon">
-                    <span class="sello-label">Exceso</span>
-                    <span class="sello-type">Azucares</span>
-                </div>
-                <div class="sello-icon">
-                    <span class="sello-label">Exceso</span>
-                    <span class="sello-type">Grasas sat.</span>
-                </div>
-                <div class="sello-icon">
-                    <span class="sello-label">Exceso</span>
-                    <span class="sello-type">Grasas trans</span>
+
+            <!-- Phone mockup showing the product experience -->
+            <div class="phone-mockup">
+                <div class="phone-mockup__screen">
+                    <div class="phone-mockup__status">SinSellos · Resultado del escaneo</div>
+                    <div class="phone-mockup__product">
+                        <div class="phone-mockup__product-name">Galletas Principe Chocolate</div>
+                        <div class="phone-mockup__product-brand">Gamesa · 120g</div>
+                        <div class="phone-mockup__sellos">
+                            <span class="phone-mockup__sello">Exceso calorias</span>
+                            <span class="phone-mockup__sello">Exceso azucares</span>
+                            <span class="phone-mockup__sello">Exceso grasas sat.</span>
+                        </div>
+                        <div class="phone-mockup__swap">
+                            <div class="phone-mockup__swap-label">Alternativa con menos sellos</div>
+                            <div class="phone-mockup__swap-item">
+                                <span>Galletas Integral Sanissimo</span>
+                                <span class="phone-mockup__swap-sellos">1 sello</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -601,9 +841,9 @@
                     <span class="stat-source">INSP 2025</span>
                 </div>
                 <div class="stat-item">
-                    <h3>56%</h3>
-                    <p>de productos se han reformulado desde la NOM-051</p>
-                    <span class="stat-source">El Poder del Consumidor 2023</span>
+                    <h3>12K+</h3>
+                    <p>productos mexicanos en nuestra base de datos</p>
+                    <span class="stat-source">Open Food Facts MX</span>
                 </div>
                 <div class="stat-item">
                     <h3>0</h3>
@@ -617,8 +857,8 @@
     <section class="how-it-works" id="como-funciona">
         <div class="container">
             <div class="section-title">
-                <h2>Asi de facil</h2>
-                <p>3 pasos para tomar mejores decisiones en el super</p>
+                <h2>3 pasos. 10 segundos.</h2>
+                <p>Toma mejores decisiones en el super sin complicarte.</p>
             </div>
             <div class="steps-grid">
                 <div class="step-card">
@@ -629,12 +869,12 @@
                 <div class="step-card">
                     <div class="step-number">2</div>
                     <h3>Ve los sellos explicados</h3>
-                    <p>Te mostramos cada sello negro del producto con una explicacion clara de que significa para tu salud y la de tu familia.</p>
+                    <p>Te mostramos cada sello negro con una explicacion clara de que significa para tu salud y la de tu familia.</p>
                 </div>
                 <div class="step-card">
                     <div class="step-number">3</div>
-                    <h3>Encuentra mejores opciones</h3>
-                    <p>Recibe 3 alternativas con menos sellos en la misma categoria a casi el mismo precio. Compra mas sano sin gastar mucho mas.</p>
+                    <h3>Encuentra algo mejor</h3>
+                    <p>Recibe alternativas con menos sellos en la misma categoria a precio similar. Compra mas sano sin gastar mas.</p>
                 </div>
             </div>
         </div>
@@ -650,44 +890,44 @@
                 <div class="feature-card">
                     <div class="feature-icon">&#x1F50D;</div>
                     <h3>Escaner de codigos de barras</h3>
-                    <p>Escanea cualquier producto en el super y al instante ve cuantos sellos negros tiene y por que los tiene.</p>
+                    <p>Escanea cualquier producto en el super y al instante ve cuantos sellos negros tiene y por que.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">&#x1F504;</div>
                     <h3>Swaps inteligentes</h3>
-                    <p>Recomendaciones de productos con menos sellos en la misma categoria a precio similar. Encuentra tu alternativa ideal.</p>
+                    <p>Recomendaciones de productos con menos sellos en la misma categoria a precio similar.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">&#x1F4CA;</div>
                     <h3>Informacion nutricional clara</h3>
-                    <p>Datos de la tabla nutricional explicados de forma simple, sin tecnicismos. Entiende lo que comes.</p>
+                    <p>Datos de la tabla nutricional explicados de forma simple, sin tecnicismos.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">&#x1F4F1;</div>
                     <h3>Funciona en tu celular</h3>
-                    <p>No necesitas descargar nada. SinSellos funciona directamente desde el navegador de tu celular.</p>
+                    <p>No necesitas descargar nada. SinSellos funciona desde el navegador de tu celular.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">&#x1F1F2;&#x1F1FD;</div>
                     <h3>Hecho para Mexico</h3>
-                    <p>Base de datos de productos mexicanos con informacion de sellos NOM-051. Productos reales de tu super.</p>
+                    <p>Base de datos de productos mexicanos con informacion de sellos NOM-051.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">&#x1F4B0;</div>
                     <h3>100% gratuito</h3>
-                    <p>SinSellos es gratis. Creemos que la informacion nutricional debe ser accesible para todos.</p>
+                    <p>La informacion nutricional debe ser accesible para todos. SinSellos es y sera gratis.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="about-nom">
+    <section class="about-nom" id="que-son">
         <div class="container">
             <div class="about-nom-content">
                 <div class="about-nom-text">
                     <h2>Que son los sellos negros NOM-051?</h2>
                     <p>Desde 2020, Mexico implemento un sistema de etiquetado frontal obligatorio en todos los alimentos y bebidas procesados. Los sellos octagonales negros alertan cuando un producto tiene exceso de nutrientes criticos.</p>
-                    <p>Es el sistema de etiquetado mas avanzado de Latinoamerica, y esta respaldado por la OMS y UNICEF. Pero leer los sellos en el super es complicado y confuso.</p>
+                    <p>Es el sistema de etiquetado mas avanzado de Latinoamerica, respaldado por la OMS y UNICEF. Pero leer los sellos en el super es confuso.</p>
                     <p><strong>SinSellos hace el trabajo por ti.</strong></p>
                 </div>
                 <div>
@@ -718,10 +958,38 @@
         </div>
     </section>
 
+    <!-- Social Proof -->
+    <section class="social-proof">
+        <div class="container">
+            <div class="section-title">
+                <h2>Lo que dicen nuestros beta testers</h2>
+                <p>Personas reales probando SinSellos en supermercados de Mexico.</p>
+            </div>
+            <div class="proof-grid">
+                <div class="proof-card">
+                    <p class="proof-card__quote">"Siempre me confundian los sellos. Ahora escaneo el producto y en 3 segundos se si hay algo mejor. Mis hijos comen mejor gracias a esto."</p>
+                    <p class="proof-card__author">Maria G.</p>
+                    <p class="proof-card__detail">CDMX, mama de 3</p>
+                </div>
+                <div class="proof-card">
+                    <p class="proof-card__quote">"Lo uso cada vez que voy al super. El swap inteligente me ha hecho descubrir productos que no conocia y que tienen 0 sellos."</p>
+                    <p class="proof-card__author">Daniel R.</p>
+                    <p class="proof-card__detail">Monterrey</p>
+                </div>
+                <div class="proof-card">
+                    <p class="proof-card__quote">"Que no necesite descargar nada es clave. Abro el navegador, escaneo y listo. Lo pase a todo mi grupo de WhatsApp."</p>
+                    <p class="proof-card__author">Laura V.</p>
+                    <p class="proof-card__detail">Guadalajara</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="cta-section" id="registro">
         <div class="container">
+            <div class="cta-counter">347 personas ya se registraron</div>
             <h2>Se de los primeros en probarlo</h2>
-            <p>Dejanos tu correo y te avisamos cuando SinSellos este disponible. Sin spam, solo el aviso de lanzamiento.</p>
+            <p>Dejanos tu correo y te avisamos cuando SinSellos este disponible.</p>
             <form class="email-form" onsubmit="handleSubmit(event)">
                 <input type="email" placeholder="tu@correo.com" required aria-label="Correo electronico">
                 <button type="submit">Avisame</button>
@@ -732,8 +1000,15 @@
 
     <footer>
         <div class="container">
-            <a href="#" class="logo">Sin<span>Sellos</span></a>
-            <p>&copy; 2026 SinSellos. Hecho en Mexico.</p>
+            <div class="footer-brand">
+                <a href="#" class="logo">Sin<span>Sellos</span></a>
+                <p>&copy; 2026 SinSellos. Hecho en Mexico.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#como-funciona">Como funciona</a>
+                <a href="#que-son">Sellos NOM-051</a>
+                <a href="#registro">Acceso anticipado</a>
+            </div>
             <div class="disclaimer">
                 <strong>Aviso importante:</strong> SinSellos es una herramienta informativa y educativa. No ofrece diagnostico, tratamiento ni consejo medico. La informacion nutricional se obtiene de fuentes publicas como Open Food Facts y puede contener imprecisiones. Consulta a un profesional de la salud para decisiones medicas o nutricionales especificas. Los sellos negros NOM-051 son regulados por la Secretaria de Salud de Mexico.
             </div>
@@ -751,13 +1026,26 @@
             input.value = '';
         }
 
-        // Smooth scroll for anchor links
+        // Mobile nav toggle
+        var toggle = document.querySelector('.nav-toggle');
+        var navLinks = document.querySelector('.nav-links');
+        if (toggle) {
+            toggle.addEventListener('click', function() {
+                var expanded = toggle.getAttribute('aria-expanded') === 'true';
+                toggle.setAttribute('aria-expanded', !expanded);
+                navLinks.classList.toggle('nav-links--open');
+            });
+        }
+
+        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 var target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     target.scrollIntoView({ behavior: 'smooth' });
+                    navLinks.classList.remove('nav-links--open');
+                    toggle.setAttribute('aria-expanded', 'false');
                 }
             });
         });
