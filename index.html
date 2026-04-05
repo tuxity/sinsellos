@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synseyos — Escanea, compara y elige productos sin sellos negros</title>
+    <meta name="description" content="Escanea el código de barras de cualquier producto y descubre sus sellos negros NOM-051. Encuentra alternativas más saludables al mismo precio.">
+    <meta property="og:title" content="Synseyos — Escáner de Sellos Negros">
+    <meta property="og:description" content="Escanea productos, descubre sus sellos negros y encuentra alternativas más saludables. Hecho en México.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tuxity.github.io/synseyos/">
+    <meta property="og:locale" content="es_MX">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green-50: #f0fdf4;
+            --green-100: #dcfce7;
+            --green-500: #22c55e;
+            --green-600: #16a34a;
+            --green-700: #15803d;
+            --green-800: #166534;
+            --green-900: #14532d;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --orange-500: #f97316;
+            --red-500: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--gray-800);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Nav */
+        nav {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--gray-200);
+            background: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--green-700);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--gray-800);
+        }
+
+        .nav-cta {
+            background: var(--green-600);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .nav-cta:hover {
+            background: var(--green-700);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--green-100);
+            color: var(--green-800);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.15;
+            color: var(--gray-900);
+            max-width: 800px;
+            margin: 0 auto 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 .highlight {
+            color: var(--green-600);
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto 36px;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--green-600);
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: background 0.2s, transform 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background: var(--green-700);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--gray-100);
+            color: var(--gray-700);
+            padding: 14px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: background 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-200);
+        }
+
+        /* Sellos demo */
+        .sellos-demo {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 48px;
+            flex-wrap: wrap;
+        }
+
+        .sello-icon {
+            width: 72px;
+            height: 72px;
+            background: var(--gray-900);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.2;
+            padding: 8px;
+            position: relative;
+        }
+
+        .sello-icon::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+        }
+
+        .sello-icon .sello-label {
+            font-size: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .sello-icon .sello-type {
+            font-size: 0.65rem;
+            font-weight: 800;
+            margin-top: 2px;
+        }
+
+        /* Stats */
+        .stats {
+            padding: 60px 0;
+            background: var(--gray-50);
+            border-top: 1px solid var(--gray-200);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--green-600);
+            line-height: 1;
+        }
+
+        .stat-item p {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            margin-top: 8px;
+        }
+
+        .stat-item .stat-source {
+            font-size: 0.75rem;
+            color: var(--gray-400);
+            margin-top: 4px;
+        }
+
+        /* How it works */
+        .how-it-works {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            letter-spacing: -0.5px;
+        }
+
+        .section-title p {
+            color: var(--gray-500);
+            margin-top: 8px;
+            font-size: 1.05rem;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+
+        .step-card {
+            background: #fff;
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            transition: box-shadow 0.2s;
+        }
+
+        .step-card:hover {
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: var(--green-100);
+            color: var(--green-700);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .step-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+
+        .step-card p {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+        }
+
+        /* Features */
+        .features {
+            padding: 80px 0;
+            background: var(--green-900);
+            color: #fff;
+        }
+
+        .features .section-title h2 {
+            color: #fff;
+        }
+
+        .features .section-title p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 28px;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* About NOM-051 */
+        .about-nom {
+            padding: 80px 0;
+        }
+
+        .about-nom-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .about-nom-text h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .about-nom-text p {
+            color: var(--gray-600);
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+        }
+
+        .sellos-list {
+            list-style: none;
+        }
+
+        .sellos-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .sellos-list li:last-child {
+            border-bottom: none;
+        }
+
+        .sello-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--gray-900);
+            border-radius: 50%;
+            margin-top: 7px;
+            flex-shrink: 0;
+        }
+
+        .sellos-list strong {
+            color: var(--gray-900);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 0;
+            background: var(--green-50);
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 12px;
+        }
+
+        .cta-section p {
+            color: var(--gray-600);
+            margin-bottom: 32px;
+            font-size: 1.05rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .email-form {
+            display: flex;
+            gap: 12px;
+            max-width: 480px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .email-form input {
+            flex: 1;
+            min-width: 240px;
+            padding: 14px 20px;
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .email-form input:focus {
+            border-color: var(--green-500);
+        }
+
+        .email-form button {
+            background: var(--green-600);
+            color: #fff;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .email-form button:hover {
+            background: var(--green-700);
+        }
+
+        .cta-note {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+            margin-top: 12px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--gray-200);
+            text-align: center;
+        }
+
+        footer .logo {
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        footer p {
+            color: var(--gray-400);
+            font-size: 0.85rem;
+        }
+
+        .disclaimer {
+            max-width: 700px;
+            margin: 24px auto 0;
+            padding: 16px 20px;
+            background: var(--gray-50);
+            border-radius: 8px;
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            line-height: 1.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 48px 0 40px;
+            }
+
+            .about-nom-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sellos-demo {
+                gap: 12px;
+            }
+
+            .sello-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">syn<span>seyos</span></a>
+            <a href="#registro" class="nav-cta">Aviso de lanzamiento</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">Hecho en Mexico para consumidores mexicanos</div>
+            <h1>Escanea cualquier producto y descubre sus <span class="highlight">sellos negros</span></h1>
+            <p>Synseyos te muestra los sellos NOM-051 de cada producto y te recomienda alternativas mas saludables al mismo precio.</p>
+            <div class="hero-cta-group">
+                <a href="#registro" class="btn-primary">Quiero acceso anticipado</a>
+                <a href="#como-funciona" class="btn-secondary">Como funciona</a>
+            </div>
+            <div class="sellos-demo">
+                <div class="sello-icon">
+                    <span class="sello-label">Exceso</span>
+                    <span class="sello-type">Calorias</span>
+                </div>
+                <div class="sello-icon">
+                    <span class="sello-label">Exceso</span>
+                    <span class="sello-type">Sodio</span>
+                </div>
+                <div class="sello-icon">
+                    <span class="sello-label">Exceso</span>
+                    <span class="sello-type">Azucares</span>
+                </div>
+                <div class="sello-icon">
+                    <span class="sello-label">Exceso</span>
+                    <span class="sello-type">Grasas sat.</span>
+                </div>
+                <div class="sello-icon">
+                    <span class="sello-label">Exceso</span>
+                    <span class="sello-type">Grasas trans</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>78%</h3>
+                    <p>de adultos mexicanos consideran los sellos al comprar</p>
+                    <span class="stat-source">INSP 2025</span>
+                </div>
+                <div class="stat-item">
+                    <h3>26M</h3>
+                    <p>de personas buscan activamente productos con menos sellos</p>
+                    <span class="stat-source">INSP 2025</span>
+                </div>
+                <div class="stat-item">
+                    <h3>56%</h3>
+                    <p>de productos se han reformulado desde la NOM-051</p>
+                    <span class="stat-source">El Poder del Consumidor 2023</span>
+                </div>
+                <div class="stat-item">
+                    <h3>0</h3>
+                    <p>herramientas para comparar sellos de productos en Mexico</p>
+                    <span class="stat-source">Analisis de mercado 2025</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works" id="como-funciona">
+        <div class="container">
+            <div class="section-title">
+                <h2>Asi de facil</h2>
+                <p>3 pasos para tomar mejores decisiones en el super</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Escanea el codigo de barras</h3>
+                    <p>Abre Synseyos desde tu celular y apunta la camara al producto. Funciona con cualquier producto vendido en Mexico.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Ve los sellos explicados</h3>
+                    <p>Te mostramos cada sello negro del producto con una explicacion clara de que significa para tu salud y la de tu familia.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Encuentra mejores opciones</h3>
+                    <p>Recibe 3 alternativas con menos sellos en la misma categoria y rango de precio. Compra mas sano sin gastar mas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Todo lo que necesitas para comprar informado</h2>
+                <p>Herramientas pensadas para el consumidor mexicano</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">&#x1F50D;</div>
+                    <h3>Escaner de codigos de barras</h3>
+                    <p>Escanea cualquier producto en el super y al instante ve cuantos sellos negros tiene y por que los tiene.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#x1F504;</div>
+                    <h3>Swaps inteligentes</h3>
+                    <p>Recomendaciones de productos con menos sellos en la misma categoria y precio. Encuentra tu alternativa ideal.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#x1F4CA;</div>
+                    <h3>Informacion nutricional clara</h3>
+                    <p>Datos de la tabla nutricional explicados de forma simple, sin tecnicismos. Entiende lo que comes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#x1F4F1;</div>
+                    <h3>Funciona en tu celular</h3>
+                    <p>No necesitas descargar nada. Synseyos funciona directamente desde el navegador de tu celular.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#x1F1F2;&#x1F1FD;</div>
+                    <h3>Hecho para Mexico</h3>
+                    <p>Base de datos de productos mexicanos con informacion de sellos NOM-051. Productos reales de tu super.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#x1F4B0;</div>
+                    <h3>100% gratuito</h3>
+                    <p>Synseyos es gratis. Creemos que la informacion nutricional debe ser accesible para todos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-nom">
+        <div class="container">
+            <div class="about-nom-content">
+                <div class="about-nom-text">
+                    <h2>Que son los sellos negros NOM-051?</h2>
+                    <p>Desde 2020, Mexico implemento un sistema de etiquetado frontal obligatorio en todos los alimentos y bebidas procesados. Los sellos octagonales negros alertan cuando un producto tiene exceso de nutrientes criticos.</p>
+                    <p>Es el sistema de etiquetado mas avanzado de Latinoamerica, y esta respaldado por la OMS y UNICEF. Pero leer los sellos en el super es complicado y confuso.</p>
+                    <p><strong>Synseyos hace el trabajo por ti.</strong></p>
+                </div>
+                <div>
+                    <ul class="sellos-list">
+                        <li>
+                            <div class="sello-dot"></div>
+                            <div><strong>Exceso de calorias</strong> &mdash; El producto aporta mas calorias de las recomendadas por porcion</div>
+                        </li>
+                        <li>
+                            <div class="sello-dot"></div>
+                            <div><strong>Exceso de azucares</strong> &mdash; Contiene mas azucar anadida de la recomendada</div>
+                        </li>
+                        <li>
+                            <div class="sello-dot"></div>
+                            <div><strong>Exceso de grasas saturadas</strong> &mdash; Alto contenido de grasas que afectan la salud cardiovascular</div>
+                        </li>
+                        <li>
+                            <div class="sello-dot"></div>
+                            <div><strong>Exceso de grasas trans</strong> &mdash; Contiene grasas trans, asociadas a mayor riesgo cardiaco</div>
+                        </li>
+                        <li>
+                            <div class="sello-dot"></div>
+                            <div><strong>Exceso de sodio</strong> &mdash; Alto contenido de sal que puede elevar la presion arterial</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="registro">
+        <div class="container">
+            <h2>Se de los primeros en probarlo</h2>
+            <p>Dejanos tu correo y te avisamos cuando Synseyos este disponible. Sin spam, solo el aviso de lanzamiento.</p>
+            <form class="email-form" onsubmit="handleSubmit(event)">
+                <input type="email" placeholder="tu@correo.com" required aria-label="Correo electronico">
+                <button type="submit">Avisame</button>
+            </form>
+            <p class="cta-note">Sin spam. Solo te avisamos cuando lancemos.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <a href="#" class="logo">syn<span>seyos</span></a>
+            <p>&copy; 2026 Synseyos. Hecho en Mexico.</p>
+            <div class="disclaimer">
+                <strong>Aviso importante:</strong> Synseyos es una herramienta informativa y educativa. No ofrece diagnostico, tratamiento ni consejo medico. La informacion nutricional se obtiene de fuentes publicas como Open Food Facts y puede contener imprecisiones. Consulta a un profesional de la salud para decisiones medicas o nutricionales especificas. Los sellos negros NOM-051 son regulados por la Secretaria de Salud de Mexico.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function handleSubmit(e) {
+            e.preventDefault();
+            var input = e.target.querySelector('input');
+            var button = e.target.querySelector('button');
+            button.textContent = 'Registrado!';
+            button.disabled = true;
+            input.disabled = true;
+            input.value = '';
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
